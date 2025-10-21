@@ -5,26 +5,39 @@ header('Content-Type: application/json');
 $input = json_decode(file_get_contents('php://input'), true);
 
 // Validate inputs
-if (!isset($input['cash']) || !isset($input['quantity']) || !isset($input['price'])) {
-    echo json_encode(['success' => false, 'message' => 'Missing required fields.']);
+if (!isset($input['orders']) || !isset($input['cash']) || !is_array($input['orders'])) {
+    echo json_encode(['success' => false, 'message' => 'Invalid request.']);
     exit;
 }
 
+$orders = $input['orders'];
 $cash = floatval($input['cash']);
-$quantity = intval($input['quantity']);
-$price = floatval($input['price']);
+$totalCost = 0;
+$receiptItems = [];
 
-if ($cash < 0 || $quantity <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Invalid cash or quantity.']);
+foreach ($orders as $order) {
+    if (!isset($order['name']) || !isset($order['price']) || !isset($order['qty'])) {
+        echo json_encode(['success' => false, 'message' => 'Invalid order item.']);
+        exit;
+    }
+    $qty = intval($order['qty']);
+    $price = floatval($order['price']);
+    if ($qty <= 0 || $price < 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid quantity or price.']);
+        exit;
+    }
+    $itemTotal = $price * $qty;
+    $totalCost += $itemTotal;
+    $receiptItems[] = "{$order['name']} x{$qty} - {$itemTotal} PHP";
+}
+
+if ($cash < $totalCost) {
+    echo json_encode(['success' => false, 'message' => 'Insufficient cash.']);
     exit;
 }
 
-$totalCost = $price * $quantity;
+$change = $cash - $totalCost;
+$receipt = "Items: " . implode(', ', $receiptItems) . ". Total: {$totalCost} PHP. Change: {$change} PHP.";
 
-if ($cash >= $totalCost) {
-    $change = $cash - $totalCost;
-    echo json_encode(['success' => true, 'change' => $change]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Insufficient cash.']);
-}
+echo json_encode(['success' => true, 'receipt' => $receipt]);
 ?>
