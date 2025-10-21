@@ -3,160 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classic Pinoy Snacks Vending</title>
+    <title>Pinoy Street Food Vending</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        nav {
+            background-color: #d32f2f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        nav ul {
+            list-style: none;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
         }
-        h1 {
-            color: #d32f2f; /* Pinoy red */
+        nav li {
+            margin: 0 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #b71c1c;
+        }
+        section {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: none;
+        }
+        section.active {
+            display: block;
+        }
+        #home {
             text-align: center;
+            background: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center/cover;
+            color: white;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
-        .snack-form {
+        #home h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        #about, #contact {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        #order-now {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .food-item {
             background-color: #fff;
-            border: 2px solid #ffc107; /* Yellow border */
             border-radius: 10px;
             padding: 20px;
-            margin: 20px;
-            width: 300px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
         }
-        .snack-form:hover {
-            transform: scale(1.05);
+        .food-item:hover {
+            transform: translateY(-5px);
         }
-        img {
-            width: 150px;
+        .food-item img {
+            width: 100%;
             height: 150px;
+            object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 10px;
+        }
+        .food-item h3 {
+            margin: 10px 0;
+            color: #d32f2f;
+        }
+        .food-item p {
+            font-weight: bold;
         }
         input {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         button {
-            background-color: #d32f2f;
+            background-color: #388e3c;
             color: white;
             border: none;
-            padding: 10px;
-            width: 100%;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #b71c1c;
+            background-color: #2e7d32;
+        }
+        #cart {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+        #cart-items li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
         }
         #response {
             margin-top: 20px;
-            font-weight: bold;
-            color: #388e3c; /* Green for success */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .success {
+            color: #388e3c;
         }
         .error {
-            color: #d32f2f; /* Red for error */
+            color: #d32f2f;
         }
     </style>
 </head>
 <body>
-    <h1>Buy Your Favorite Classic Pinoy Snacks!</h1>
-    <p>Prices: E-aji (5 PHP), Chickadees (10 PHP), Pompoms (8 PHP)</p>
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="showSection('home')">Home</a></li>
+            <li><a href="#about" onclick="showSection('about')">About</a></li>
+            <li><a href="#order-now" onclick="showSection('order-now')">Order Now</a></li>
+            <li><a href="#contact" onclick="showSection('contact')">Contact Us</a></li>
+        </ul>
+    </nav>
 
-    <!-- Form 1: E-aji -->
-    <div class="snack-form">
-        <h2>E-aji</h2>
-        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=150" alt="E-aji">
-        <form id="eaji-form">
-            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
-            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
-            <button type="submit">Buy E-aji</button>
-        </form>
-    </div>
+    <section id="home" class="active">
+        <h1>Welcome to Pinoy Street Food Vending!</h1>
+        <p>Relive the flavors of the streets. Order your favorites below!</p>
+    </section>
 
-    <!-- Form 2: Chickadees -->
-    <div class="snack-form">
-        <h2>Chickadees</h2>
-        <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Chickadees">
-        <form id="chickadees-form">
-            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
-            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
-            <button type="submit">Buy Chickadees</button>
-        </form>
-    </div>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We bring back classic Pinoy street foods like Coke, Isaw, Dugo, and Paa. Nostalgic and delicious!</p>
+    </section>
 
-    <!-- Form 3: Pompoms -->
-    <div class="snack-form">
-        <h2>Pompoms</h2>
-        <img src="https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Pompoms">
-        <form id="pompoms-form">
-            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
-            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
-            <button type="submit">Buy Pompoms</button>
-        </form>
-    </div>
+    <section id="order-now">
+        <h2>Order Now</h2>
+        <p>Prices: Coke (15 PHP), Isaw (10 PHP), Dugo (20 PHP), Paa (25 PHP)</p>
+        <div class="food-grid">
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Coke">
+                <h3>Coke</h3>
+                <p>15 PHP</p>
+                <input type="number" id="coke-qty" placeholder="Quantity" min="0">
+                <button onclick="addToCart('Coke', 15, 'coke-qty')">Add to Cart</button>
+            </div>
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Isaw">
+                <h3>Isaw</h3>
+                <p>10 PHP</p>
+                <input type="number" id="isaw-qty" placeholder="Quantity" min="0">
+                <button onclick="addToCart('Isaw', 10, 'isaw-qty')">Add to Cart</button>
+            </div>
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Dugo">
+                <h3>Dugo</h3>
+                <p>20 PHP</p>
+                <input type="number" id="dugo-qty" placeholder="Quantity" min="0">
+                <button onclick="addToCart('Dugo', 20, 'dugo-qty')">Add to Cart</button>
+            </div>
+            <div class="food-item">
+                <img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Paa">
+                <h3>Paa</h3>
+                <p>25 PHP</p>
+                <input type="number" id="paa-qty" placeholder="Quantity" min="0">
+                <button onclick="addToCart('Paa', 25, 'paa-qty')">Add to Cart</button>
+            </div>
+        </div>
+        <div id="cart">
+            <h3>Your Cart</h3>
+            <ul id="cart-items"></ul>
+            <p>Total: <span id="total">0</span> PHP</p>
+            <input type="number" id="cash" placeholder="Enter cash (PHP)" min="0">
+            <button onclick="submitOrder()">Submit Order</button>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: info@pinoyfood.com | Phone: +63 123 456 7890</p>
+    </section>
 
     <div id="response"></div>
 
     <script>
-        // Prices object
-        const prices = {
-            eaji: 5,
-            chickadees: 10,
-            pompoms: 8
-        };
+        let cart = [];
+        let total = 0;
 
-        // Function to handle form submission
-        function handleSubmit(event, snack) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const cash = parseFloat(formData.get('cash'));
-            const quantity = parseInt(formData.get('quantity'));
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
 
-            // Send to PHP API
+        function addToCart(name, price, qtyId) {
+            const qty = parseInt(document.getElementById(qtyId).value) || 0;
+            if (qty > 0) {
+                cart.push({ name, price, qty });
+                total += price * qty;
+                updateCart();
+                document.getElementById(qtyId).value = '';
+            }
+        }
+
+        function updateCart() {
+            const cartList = document.getElementById('cart-items');
+            cartList.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} x${item.qty} - ${item.price * item.qty} PHP`;
+                cartList.appendChild(li);
+            });
+            document.getElementById('total').textContent = total;
+        }
+
+        function submitOrder() {
+            const cash = parseFloat(document.getElementById('cash').value);
+            if (cart.length === 0 || isNaN(cash) || cash < total) {
+                displayResponse('Error: Invalid cart or insufficient cash.', 'error');
+                return;
+            }
+
             fetch('api.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    snack: snack,
-                    cash: cash,
-                    quantity: quantity,
-                    price: prices[snack]
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orders: cart, cash: cash })
             })
             .then(response => response.json())
             .then(data => {
-                const responseDiv = document.getElementById('response');
                 if (data.success) {
-                    responseDiv.innerHTML = `Success! Your change is ${data.change} PHP.`;
-                    responseDiv.className = '';
+                    displayResponse(`Receipt: ${data.receipt}`, 'success');
+                    cart = [];
+                    total = 0;
+                    updateCart();
+                    document.getElementById('cash').value = '';
                 } else {
-                    responseDiv.innerHTML = `Error: ${data.message}`;
-                    responseDiv.className = 'error';
+                    displayResponse(`Error: ${data.message}`, 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('response').innerHTML = 'An error occurred. Please try again.';
+                displayResponse('An error occurred. Please try again.', 'error');
             });
         }
 
-        // Attach event listeners
-        document.getElementById('eaji-form').addEventListener('submit', (e) => handleSubmit(e, 'eaji'));
-        document.getElementById('chickadees-form').addEventListener('submit', (e) => handleSubmit(e, 'chickadees'));
-        document.getElementById('pompoms-form').addEventListener('submit', (e) => handleSubmit(e, 'pompoms'));
+        function displayResponse(message, type) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = message;
+            responseDiv.className = type;
+            responseDiv.style.display = 'block';
+        }
     </script>
 </body>
 </html>
