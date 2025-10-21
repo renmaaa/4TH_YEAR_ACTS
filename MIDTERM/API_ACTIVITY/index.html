@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Pinoy Snacks Vending</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #d32f2f; /* Pinoy red */
+            text-align: center;
+        }
+        .snack-form {
+            background-color: #fff;
+            border: 2px solid #ffc107; /* Yellow border */
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .snack-form:hover {
+            transform: scale(1.05);
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        #response {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #388e3c; /* Green for success */
+        }
+        .error {
+            color: #d32f2f; /* Red for error */
+        }
+    </style>
+</head>
+<body>
+    <h1>Buy Your Favorite Classic Pinoy Snacks!</h1>
+    <p>Prices: E-aji (5 PHP), Chickadees (10 PHP), Pompoms (8 PHP)</p>
+
+    <!-- Form 1: E-aji -->
+    <div class="snack-form">
+        <h2>E-aji</h2>
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=150" alt="E-aji">
+        <form id="eaji-form">
+            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
+            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
+            <button type="submit">Buy E-aji</button>
+        </form>
+    </div>
+
+    <!-- Form 2: Chickadees -->
+    <div class="snack-form">
+        <h2>Chickadees</h2>
+        <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Chickadees">
+        <form id="chickadees-form">
+            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
+            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
+            <button type="submit">Buy Chickadees</button>
+        </form>
+    </div>
+
+    <!-- Form 3: Pompoms -->
+    <div class="snack-form">
+        <h2>Pompoms</h2>
+        <img src="https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Pompoms">
+        <form id="pompoms-form">
+            <input type="number" name="cash" placeholder="Enter cash (PHP)" min="0" required>
+            <input type="number" name="quantity" placeholder="Enter quantity" min="1" required>
+            <button type="submit">Buy Pompoms</button>
+        </form>
+    </div>
+
+    <div id="response"></div>
+
+    <script>
+        // Prices object
+        const prices = {
+            eaji: 5,
+            chickadees: 10,
+            pompoms: 8
+        };
+
+        // Function to handle form submission
+        function handleSubmit(event, snack) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const cash = parseFloat(formData.get('cash'));
+            const quantity = parseInt(formData.get('quantity'));
+
+            // Send to PHP API
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    snack: snack,
+                    cash: cash,
+                    quantity: quantity,
+                    price: prices[snack]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseDiv = document.getElementById('response');
+                if (data.success) {
+                    responseDiv.innerHTML = `Success! Your change is ${data.change} PHP.`;
+                    responseDiv.className = '';
+                } else {
+                    responseDiv.innerHTML = `Error: ${data.message}`;
+                    responseDiv.className = 'error';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response').innerHTML = 'An error occurred. Please try again.';
+            });
+        }
+
+        // Attach event listeners
+        document.getElementById('eaji-form').addEventListener('submit', (e) => handleSubmit(e, 'eaji'));
+        document.getElementById('chickadees-form').addEventListener('submit', (e) => handleSubmit(e, 'chickadees'));
+        document.getElementById('pompoms-form').addEventListener('submit', (e) => handleSubmit(e, 'pompoms'));
+    </script>
+</body>
+</html>
