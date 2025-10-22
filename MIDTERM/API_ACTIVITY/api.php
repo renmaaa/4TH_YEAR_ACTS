@@ -1,10 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-// Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
 
-// Validate inputs
 if (!isset($input['orders']) || !isset($input['cash']) || !is_array($input['orders'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid request.']);
     exit;
@@ -14,6 +12,15 @@ $orders = $input['orders'];
 $cash = floatval($input['cash']);
 $totalCost = 0;
 $receiptItems = [];
+
+if (!is_numeric($input['cash'])) {
+    echo json_encode(['success' => false, 'message' => 'Cash must be a valid number.']);
+    exit;
+}
+if ($cash < 0) {
+    echo json_encode(['success' => false, 'message' => 'Cash cannot be negative.']);
+    exit;
+}
 
 foreach ($orders as $order) {
     if (!isset($order['name']) || !isset($order['price']) || !isset($order['qty'])) {
