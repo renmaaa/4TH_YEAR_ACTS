@@ -1,296 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinoy Street Food Vending</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #333;
-            line-height: 1.6;
-        }
-        nav {
-            background-color: #d32f2f;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 10px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-        }
-        nav li {
-            margin: 0 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        nav a:hover {
-            background-color: #b71c1c;
-        }
-        section {
-            padding: 50px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: none;
-        }
-        section.active {
-            display: block;
-        }
-        #home {
-            text-align: center;
-            background: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center/cover;
-            color: white;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        #home h1 {
-            font-size: 3em;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        #about, #contact {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        #order-now {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        .food-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .food-item {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .food-item:hover {
-            transform: translateY(-5px);
-        }
-        .food-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .food-item h3 {
-            margin: 10px 0;
-            color: #d32f2f;
-        }
-        .food-item p {
-            font-weight: bold;
-        }
-        input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #388e3c;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2e7d32;
-        }
-        #cart {
-            margin-top: 20px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        #cart-items {
-            list-style: none;
-            padding: 0;
-        }
-        #cart-items li {
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-        }
-        #response {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: none;
-        }
-        .success {
-            color: #388e3c;
-        }
-        .error {
-            color: #d32f2f;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pinoy Street Food Ordering System</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      color: #333;
+    }
+
+    nav {
+      background-color: #d32f2f;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      margin: 0 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #b71c1c;
+    }
+
+    section {
+      display: none;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    #home {
+      background: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200') no-repeat center/cover;
+      color: white;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    #home h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    #order-now {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .food-item {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .food-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .food-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .food-item h3 {
+      color: #d32f2f;
+      margin: 10px 0;
+    }
+
+    .food-item p {
+      font-weight: bold;
+      margin: 5px 0 10px;
+    }
+
+    input[type='number'] {
+      width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    button {
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+
+    #cart {
+      margin-top: 30px;
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #cart h3 {
+      color: #d32f2f;
+      margin-top: 0;
+    }
+
+    #cart-items {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 10px;
+    }
+
+    #cart-items li {
+      border-bottom: 1px solid #eee;
+      padding: 5px 0;
+    }
+
+   
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      animation: popUp 0.3s ease;
+    }
+
+    @keyframes popUp {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-content h2 {
+      color: #388e3c;
+      margin-top: 0;
+    }
+
+    .close-btn {
+      background-color: #d32f2f;
+      margin-top: 20px;
+    }
+
+    .close-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    .success {
+      color: #388e3c;
+    }
+
+    .error {
+      color: #d32f2f;
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#home" onclick="showSection('home')">Home</a></li>
-            <li><a href="#about" onclick="showSection('about')">About</a></li>
-            <li><a href="#order-now" onclick="showSection('order-now')">Order Now</a></li>
-            <li><a href="#contact" onclick="showSection('contact')">Contact Us</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#home" onclick="showSection('home')">Home</a></li>
+      <li><a href="#order-now" onclick="showSection('order-now')">Order</a></li>
+    </ul>
+  </nav>
 
-    <section id="home" class="active">
-        <h1>Welcome to Pinoy Street Food Vending!</h1>
-        <p>Relive the flavors of the streets. Order your favorites below!</p>
-    </section>
+  <section id="home" class="active">
+    <h1>Welcome to Pinoy Street Food Vending!</h1>
+    <p>Craving your favorite isaw or paa? Order now and taste nostalgia!</p>
+  </section>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We bring back classic Pinoy street foods like Coke, Isaw, Dugo, and Paa. Nostalgic and delicious!</p>
-    </section>
+  <section id="order-now">
+    <h2>Menu</h2>
+    <div class="food-grid">
+      <div class="food-item">
+        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Coke">
+        <h3>Coke</h3>
+        <p>₱15</p>
+        <input type="number" id="coke-qty" placeholder="Quantity" min="0">
+        <button onclick="addToCart('Coke', 15, 'coke-qty')">Add to Cart</button>
+      </div>
+      <div class="food-item">
+        <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Isaw">
+        <h3>Isaw</h3>
+        <p>₱10</p>
+        <input type="number" id="isaw-qty" placeholder="Quantity" min="0">
+        <button onclick="addToCart('Isaw', 10, 'isaw-qty')">Add to Cart</button>
+      </div>
+      <div class="food-item">
+        <img src="https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Dugo">
+        <h3>Dugo</h3>
+        <p>₱20</p>
+        <input type="number" id="dugo-qty" placeholder="Quantity" min="0">
+        <button onclick="addToCart('Dugo', 20, 'dugo-qty')">Add to Cart</button>
+      </div>
+      <div class="food-item">
+        <img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Paa">
+        <h3>Paa</h3>
+        <p>₱25</p>
+        <input type="number" id="paa-qty" placeholder="Quantity" min="0">
+        <button onclick="addToCart('Paa', 25, 'paa-qty')">Add to Cart</button>
+      </div>
+    </div>
 
-    <section id="order-now">
-        <h2>Order Now</h2>
-        <p>Prices: Coke (15 PHP), Isaw (10 PHP), Dugo (20 PHP), Paa (25 PHP)</p>
-        <div class="food-grid">
-            <div class="food-item">
-                <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Coke">
-                <h3>Coke</h3>
-                <p>15 PHP</p>
-                <input type="number" id="coke-qty" placeholder="Quantity" min="0">
-                <button onclick="addToCart('Coke', 15, 'coke-qty')">Add to Cart</button>
-            </div>
-            <div class="food-item">
-                <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Isaw">
-                <h3>Isaw</h3>
-                <p>10 PHP</p>
-                <input type="number" id="isaw-qty" placeholder="Quantity" min="0">
-                <button onclick="addToCart('Isaw', 10, 'isaw-qty')">Add to Cart</button>
-            </div>
-            <div class="food-item">
-                <img src="https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Dugo">
-                <h3>Dugo</h3>
-                <p>20 PHP</p>
-                <input type="number" id="dugo-qty" placeholder="Quantity" min="0">
-                <button onclick="addToCart('Dugo', 20, 'dugo-qty')">Add to Cart</button>
-            </div>
-            <div class="food-item">
-                <img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=250" alt="Paa">
-                <h3>Paa</h3>
-                <p>25 PHP</p>
-                <input type="number" id="paa-qty" placeholder="Quantity" min="0">
-                <button onclick="addToCart('Paa', 25, 'paa-qty')">Add to Cart</button>
-            </div>
-        </div>
-        <div id="cart">
-            <h3>Your Cart</h3>
-            <ul id="cart-items"></ul>
-            <p>Total: <span id="total">0</span> PHP</p>
-            <input type="number" id="cash" placeholder="Enter cash (PHP)" min="0">
-            <button onclick="submitOrder()">Submit Order</button>
-        </div>
-    </section>
+    <div id="cart">
+      <h3>Your Cart</h3>
+      <ul id="cart-items"></ul>
+      <p>Total: <strong><span id="total">0</span> PHP</strong></p>
+      <input type="number" id="cash" placeholder="Enter cash (PHP)" min="0">
+      <button onclick="submitOrder()">Submit Order</button>
+    </div>
+  </section>
 
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: info@pinoyfood.com | Phone: +63 123 456 7890</p>
-    </section>
+ 
+  <div id="receiptModal" class="modal">
+    <div class="modal-content">
+      <h2>Receipt</h2>
+      <p id="receiptDetails"></p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
 
-    <div id="response"></div>
+  <script>
+    let cart = [];
+    let total = 0;
 
-    <script>
-        let cart = [];
-        let total = 0;
+    function showSection(id) {
+      document.querySelectorAll("section").forEach((s) => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
 
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-        }
+    function addToCart(name, price, qtyId) {
+      const qty = parseInt(document.getElementById(qtyId).value) || 0;
+      if (qty > 0) {
+        cart.push({ name, price, qty });
+        total += price * qty;
+        updateCart();
+        document.getElementById(qtyId).value = "";
+      }
+    }
 
-        function addToCart(name, price, qtyId) {
-            const qty = parseInt(document.getElementById(qtyId).value) || 0;
-            if (qty > 0) {
-                cart.push({ name, price, qty });
-                total += price * qty;
-                updateCart();
-                document.getElementById(qtyId).value = '';
-            }
-        }
+    function updateCart() {
+      const list = document.getElementById("cart-items");
+      list.innerHTML = "";
+      cart.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} x${item.qty} - ₱${item.price * item.qty}`;
+        list.appendChild(li);
+      });
+      document.getElementById("total").textContent = total;
+    }
 
-        function updateCart() {
-            const cartList = document.getElementById('cart-items');
-            cartList.innerHTML = '';
-            cart.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `${item.name} x${item.qty} - ${item.price * item.qty} PHP`;
-                cartList.appendChild(li);
-            });
-            document.getElementById('total').textContent = total;
-        }
+    function submitOrder() {
+      const cash = parseFloat(document.getElementById("cash").value);
+      if (cart.length === 0 || isNaN(cash) || cash < total) {
+        alert("Error: Invalid cart or insufficient cash.");
+        return;
+      }
 
-        function submitOrder() {
-            const cash = parseFloat(document.getElementById('cash').value);
-            if (cart.length === 0 || isNaN(cash) || cash < total) {
-                displayResponse('Error: Invalid cart or insufficient cash.', 'error');
-                return;
-            }
+      const change = cash - total;
+      let receiptText = "Items Ordered:<br>";
+      cart.forEach((item) => {
+        receiptText += `${item.name} x${item.qty} - ₱${item.price * item.qty}<br>`;
+      });
+      receiptText += `<br><strong>Total:</strong> ₱${total}<br><strong>Cash:</strong> ₱${cash}<br><strong>Change:</strong> ₱${change}`;
 
-            fetch('api.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ orders: cart, cash: cash })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    displayResponse(`Receipt: ${data.receipt}`, 'success');
-                    cart = [];
-                    total = 0;
-                    updateCart();
-                    document.getElementById('cash').value = '';
-                } else {
-                    displayResponse(`Error: ${data.message}`, 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                displayResponse('An error occurred. Please try again.', 'error');
-            });
-        }
+      document.getElementById("receiptDetails").innerHTML = receiptText;
+      document.getElementById("receiptModal").style.display = "flex";
 
-        function displayResponse(message, type) {
-            const responseDiv = document.getElementById('response');
-            responseDiv.innerHTML = message;
-            responseDiv.className = type;
-            responseDiv.style.display = 'block';
-        }
-    </script>
+      cart = [];
+      total = 0;
+      updateCart();
+      document.getElementById("cash").value = "";
+    }
+
+    function closeModal() {
+      document.getElementById("receiptModal").style.display = "none";
+    }
+
+    window.onclick = function (event) {
+      const modal = document.getElementById("receiptModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
 </body>
 </html>
