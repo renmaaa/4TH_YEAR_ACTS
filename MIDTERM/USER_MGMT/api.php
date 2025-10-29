@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php';
+require_once 'config.php';
 
 header('Content-Type: application/json');
 
@@ -16,11 +16,12 @@ switch ($action) {
             exit;
         }
 
-        $stmt = $pdo->prepare("SELECT id, username, firstname, lastname, is_admin, password FROM users WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT id, username, first_name, last_name, is_admin, password FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            unset($user['password']);
             $_SESSION['user'] = $user;
             echo json_encode(['success' => true, 'message' => 'Login successful.']);
         } else {
@@ -30,14 +31,13 @@ switch ($action) {
 
     case 'register':
         $username = trim($_POST['username'] ?? '');
-        $firstname = trim($_POST['firstname'] ?? '');
-        $lastname = trim($_POST['lastname'] ?? '');
+        $first_name = trim($_POST['first_name'] ?? '');
+        $last_name = trim($_POST['last_name'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
-        $isAdmin = isset($_POST['is_admin']) ? 1 : 0;
+        $isAdmin = ($_POST['is_admin'] ?? '') === '1' ? 1 : 0;
 
-        // Server-side validations
-        if (empty($username) || empty($firstname) || empty($lastname) || empty($password)) {
+        if (empty($username) || empty($first_name) || empty($last_name) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'All fields are required.']);
             exit;
         }
@@ -50,7 +50,6 @@ switch ($action) {
             exit;
         }
 
-        // Check username uniqueness
         $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute([$username]);
         if ($stmt->fetch()) {
@@ -59,8 +58,9 @@ switch ($action) {
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO users (username, firstname, lastname, is_admin, password) VALUES (?, ?, ?, ?, ?)");
-        if ($stmt->execute([$username, $firstname, $lastname, $isAdmin, $hashedPassword])) {
+        $dateAdded = date('Y-m-d H:i:s');
+        $stmt = $pdo->prepare("INSERT INTO users (username, first_name, last_name, is_admin, password, date_added) VALUES (?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$username, $first_name, $last_name, $isAdmin, $hashedPassword, $dateAdded])) {
             echo json_encode(['success' => true, 'message' => 'Registration successful.']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Registration failed.']);
@@ -68,16 +68,16 @@ switch ($action) {
         break;
 
     case 'get_users':
-        if (!isset($_SESSION['user']) || !$_SESSION['user']['is_admin']) {
+        if (!isset($_SESSION['user'])) {
             echo json_encode(['success' => false, 'message' => 'Unauthorized.']);
             exit;
         }
 
         $search = $_POST['search'] ?? '';
-        $query = "SELECT id, username, firstname, lastname, is_admin, date_added FROM users";
+        $query = "SELECT id, username, first_name, last_name, is_admin, date_added FROM users";
         $params = [];
         if (!empty($search)) {
-            $query .= " WHERE username LIKE ? OR firstname LIKE ? OR lastname LIKE ?";
+            $query .= " WHERE username LIKE ? OR first_name LIKE ? OR last_name LIKE ?";
             $params = ["%$search%", "%$search%", "%$search%"];
         }
 
@@ -93,15 +93,14 @@ switch ($action) {
             exit;
         }
 
-        // Similar to register, but for adding users
         $username = trim($_POST['username'] ?? '');
-        $firstname = trim($_POST['firstname'] ?? '');
-        $lastname = trim($_POST['lastname'] ?? '');
+        $first_name = trim($_POST['first_name'] ?? '');
+        $last_name = trim($_POST['last_name'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
-        $isAdmin = isset($_POST['is_admin']) ? 1 : 0;
+        $isAdmin = ($_POST['is_admin'] ?? '') === '1' ? 1 : 0;
 
-        if (empty($username) || empty($firstname) || empty($lastname) || empty($password)) {
+        if (empty($username) || empty($first_name) || empty($last_name) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'All fields are required.']);
             exit;
         }
@@ -122,8 +121,9 @@ switch ($action) {
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO users (username, firstname, lastname, is_admin, password) VALUES (?, ?, ?, ?, ?)");
-        if ($stmt->execute([$username, $firstname, $lastname, $isAdmin, $hashedPassword])) {
+        $dateAdded = date('Y-m-d H:i:s');
+        $stmt = $pdo->prepare("INSERT INTO users (username, first_name, last_name, is_admin, password, date_added) VALUES (?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$username, $first_name, $last_name, $isAdmin, $hashedPassword, $dateAdded])) {
             echo json_encode(['success' => true, 'message' => 'User added successfully.']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to add user.']);
