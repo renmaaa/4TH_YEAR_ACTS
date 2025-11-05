@@ -1,0 +1,9 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+.card {
+  border-radius: 10px;
+}
+.card-header {
+  border-bottom: none;
+}
