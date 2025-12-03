@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/icon.png" type="image/png">
+    <title>Ember & Oak | Rustic Steakhouse</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center">
+                <img src="images/icon.png" alt="Ember & Oak Logo" class="w-10 h-10 mr-2"> <!-- Icon image -->
+                <span class="text-2xl font-bold text-red-800">Ember & Oak</span>
+            </a>
+            <nav class="space-x-4">
+                <a href="about.html" class="hover:text-red-700 font-medium">About</a>
+                <a href="menu.html" class="hover:text-red-700 font-medium">Menu</a>
+                <a href="contact.html" class="hover:text-red-700 font-medium">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="bg-cover bg-center h-96" style="background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');">
+        <div class="bg-black bg-opacity-50 h-full flex items-center justify-center">
+            <div class="text-center text-white">
+                <h2 class="text-4xl font-bold mb-2">Welcome to Ember & Oak</h2>
+                <p class="text-xl">Where wood fire meets flavor.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-4 md:px-20">
+      <h3 class="text-3xl font-bold text-center text-red-800 mb-4">Our Story</h3>
+      <p class="text-lg leading-relaxed text-center">
+          At Ember & Oak, we believe in food that speaks to your soul. Born from the passion of rustic cooking and the love of hearty, flavorful meals, our steakhouse brings you oak wood-fired dishes crafted with local ingredients. From our signature smoked ribeye to our comforting sides, we bring warmth and fire to every plate.
+      </p>
+  </section>
+
+    <section class="py-12 px-4 md:px-20">
+      <h3 class="text-3xl font-bold text-center text-red-800 mb-8">Promos</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-yellow-100 rounded-lg shadow p-4">
+              <img src="images/happy-hour.jpg" alt="Happy Hour" class="w-full h-48 object-cover rounded mb-4">
+              <h4 class="text-xl font-bold mb-2">Happy Hour!</h4>
+              <p>Join us from 4 PM to 6 PM for 20% off all drinks!</p>
+          </div>
+          <div class="bg-yellow-100 rounded-lg shadow p-4">
+              <img src="images/family-feast.jpg" alt="Family Feast" class="w-full h-48 object-cover rounded mb-4">
+              <h4 class="text-xl font-bold mb-2">Family Feast</h4>
+              <p>Order any two main dishes and get a complimentary dessert!</p>
+          </div>
+      </div>
+  </section>
+
+    <section class="py-12 px-4 md:px-20">
+      <h3 class="text-3xl font-bold text-center text-red-800 mb-8">Highlights</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-green-100 rounded-lg shadow p-4">
+              <img src="images/oak-smoked-ribeye.png" alt="oak-smoke-ribeye" class="w-full h-48 object-cover rounded mb-4">
+              <h4 class="text-xl font-bold mb-2">Chef's Special</h4>
+              <p>Try our new Oak-Smoked Ribeye, a must-have for seafood lovers!</p>
+          </div>
+          <div class="bg-green-100 rounded-lg shadow p-4">
+              <img src="images/grilled-salmon.png" alt="Grilled Salmon" class="w-full h-48 object-cover rounded mb-4">
+              <h4 class="text-xl font-bold mb-2">Seasonal Dish</h4>
+              <p>Enjoy our Grilled Salmon, made with fresh, local ingredients!</p>
+          </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-12 px-4 md:px-20">
+        <h3 class="text-3xl font-bold text-center text-red-800 mb-8">Best Sellers</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-gray-100 rounded-lg shadow p-4">
+                <img src="images/oak-smoked-ribeye.png" alt="Oak-Smoked Ribeye" class="w-full h-48 object-cover rounded">
+                <h4 class="text-xl font-bold mb-2">Oak-Smoked Ribeye</h4>
+                <p>Richly marbled ribeye grilled over oak wood. ₱799</p>
+                <a href="order.html" class="mt-2 block bg-red-800 text-white text-center py-2 rounded hover:bg-red-700">Order Now</a>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow p-4">
+                <img src="images/truffle-butter-sirloin.png" alt="Truffle Butter Sirloin" class="w-full h-48 object-cover rounded">
+                <h4 class="text-xl font-bold mb-2">Truffle Butter Sirloin</h4>
+                <p>Juicy sirloin topped with creamy truffle butter. ₱649</p>
+                <a href="order.html" class="mt-2 block bg-red-800 text-white text-center py-2 rounded hover:bg-red-700">Order Now</a>
+            </div>
+            <div class="bg-gray-100 rounded-lg shadow p-4">
+                <img src="images/BBQ-brisket-sandwich.png" alt="BBQ Brisket Sandwich" class="w-full h-48 object-cover rounded">
+                <h4 class="text-xl font-bold mb-2">BBQ Brisket Sandwich</h4>
+                <p>Slow-smoked brisket with tangy BBQ sauce. ₱399</p>
+                <a href="order.html" class="mt-2 block bg-red-800 text-white text-center py-2 rounded hover:bg-red-700">Order Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-red-800 text-white py-6 text-center">
+        <p>&copy; 2025 Ember & Oak. All rights reserved.</p>
+        <p>Visit us or order online to experience fire-grilled perfection.</p>
+    </footer>
+</body>
+
+</html>
